@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: kcl.uk.dzh.zpl.RaceGame
+Bundle-ManifestVersion: 2
+Bundle-Name: kcl.uk.dzh.zpl.RaceGame
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: kcl.uk.dzh.zpl.RaceGame; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xtext,
+ org.eclipse.xtext.xbase,
+ org.eclipse.equinox.common;bundle-version="3.5.0",
+ org.eclipse.emf.ecore,
+ org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
+ org.eclipse.xtext.util,
+ org.eclipse.emf.common,
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: kcl.uk.dzh.zpl.services,
+ kcl.uk.dzh.zpl.raceGame.util,
+ kcl.uk.dzh.zpl.parser.antlr.internal,
+ kcl.uk.dzh.zpl,
+ kcl.uk.dzh.zpl.validation,
+ kcl.uk.dzh.zpl.serializer,
+ kcl.uk.dzh.zpl.raceGame,
+ kcl.uk.dzh.zpl.parser.antlr,
+ kcl.uk.dzh.zpl.generator,
+ kcl.uk.dzh.zpl.raceGame.impl,
+ kcl.uk.dzh.zpl.scoping
+Import-Package: org.apache.log4j

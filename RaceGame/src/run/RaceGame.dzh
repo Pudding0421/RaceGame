@@ -1,0 +1,46 @@
+game RaceGame{
+	var baseEnemyCount = 1
+	screen MainFrame{
+		Width = 760
+		Height = 750
+	}
+	
+	
+	field easy {
+		enemyCount = baseEnemyCount+2
+		obstacle test{
+			space first{
+				spaceWidth = 100
+				spaceHeight = 100
+				spacePosX = 190
+				spacePosY = 200
+			}
+		}
+		
+		nextLevel goto medium
+	}
+	
+	field medium {
+		enemyCount = baseEnemyCount+3
+		obstacle test{
+			
+		}
+		
+		nextLevel goto hard
+		
+		
+	}
+	
+	field hard {
+		enemyCount = baseEnemyCount+4
+		obstacle test{
+			
+		}
+		
+		nextLevel goto easy
+		
+	}
+	
+	end-game("","")
+	start = easy
+}

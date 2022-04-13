@@ -1,0 +1,116 @@
+grammar kcl.uk.dzh.zpl.RaceGame with org.eclipse.xtext.common.Terminals
+
+generate raceGame "http://www.uk.kcl/dzh/zpl/RaceGame"
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+RaceGame : 
+	"game" name=ID "{"
+		variable +=VariableDeclaration?
+		screen = ScreenSpecification 
+		fields += FieldSpecification+
+		options += OptionSpecification+ 
+		
+	"}"
+;
+
+VariableDeclaration:
+	"var" name=ID "=" value=INT
+;
+EndGameBehaviour :
+	"end-game" "(" win=STRING "," lost=STRING ")"
+;
+
+ScreenSpecification :
+	"screen" name=ID "{" 
+		"Width" "=" screenWidth = INT  
+		"Height" "=" screenHeight= INT 
+    "}"
+;
+
+Obstaclepecification:
+	 "obstacle" name=ID "{"
+	 	fields += ObstacleMember*
+	 "}"
+;
+
+ObstacleMember:
+	WallObstacle|
+	WaterObstacle
+;
+
+WaterObstacle:
+	"water" name=ID "{"
+	
+	"}"
+;
+
+WallObstacle:
+	"space" name=ID "{"
+		"spaceWidth" "=" wallWidth=INT  
+		"spaceHeight" "=" wallHeight=INT  
+		"spacePosX" "=" wallPosX=INT
+		"spacePosY" "=" wallPosY=INT
+	"}"
+;
+
+    
+FieldSpecification :
+	"field" name=ID "{" 
+		"enemyCount" "=" enemyCount=Addition
+	     obstacle = Obstaclepecification 
+	     "nextLevel" "goto"  nextLevel = [FieldSpecification]
+		
+    "}"
+;
+
+OptionSpecification :
+	StartFieldDeclaration | 
+	AllowRestartMenu|
+	SuperModeDeclaration |
+	EndGameBehaviour
+;
+
+SuperModeDeclaration:
+	"superMode" {SuperModeDeclaration}
+;
+StartFieldDeclaration:
+	"start" "=" field = [FieldSpecification]
+;
+
+AllowRestartMenu:
+	"allowRestart" {AllowRestartMenu}
+;
+
+
+Addition returns Expression:
+	Multiplication ({Addition.left = current} operator+=("+"|"-") right+=Multiplication)*
+;
+
+Multiplication returns Expression:
+	Primary ({Multiplication.left = current} operator+=("*"|"/") right+=Primary)*
+;
+
+Primary returns Expression:
+	IntLiteral |
+	IntVarExpression |
+	RealLiteral |
+	"(" Addition ")"
+;
+
+IntVarExpression:
+	var = [VariableDeclaration]
+;
+
+IntLiteral:
+	val = INT
+;
+
+RealLiteral:
+	val = REAL
+;
+
+
+REAL returns ecore::EFloat hidden():
+	INT? "." INT
+; 
